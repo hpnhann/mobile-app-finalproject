@@ -1,6 +1,10 @@
-# DAU Smart Finance
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:4f46e5,100:06b6d4&height=220&section=header&text=DAU%20Smart%20Finance&fontSize=52&fontColor=ffffff&fontAlignY=38&desc=Personal%20Finance%20Management%20App&descAlignY=58&descSize=18&animation=fadeIn" width="100%" />
+</p>
 
-Ứng dụng quản lý tài chính cá nhân thông minh, gồm Backend API và Mobile App đa nền tảng.
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=18&pause=1000&color=4f46e5&center=true&vCenter=true&width=600&lines=Backend+API+%7C+Node.js+%2B+Express+%2B+MySQL;Mobile+App+%7C+React+Native+%2B+Expo;JWT+Authentication+%7C+Google+AI+Integration" alt="Typing SVG" />
+</p>
 
 ---
 
