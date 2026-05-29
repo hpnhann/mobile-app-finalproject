@@ -1,0 +1,858 @@
+{
+    "info": {
+      "name": "DAU Smart Finance API",
+      "description": "API collection cho ứng dụng quản lý chi tiêu thông minh",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+      "version": "1.0.0"
+    },
+    "variable": [
+      {
+        "key": "baseUrl",
+        "value": "http://localhost:5000/api",
+        "type": "string"
+      },
+      {
+        "key": "token",
+        "value": "",
+        "type": "string"
+      }
+    ],
+    "item": [
+      {
+        "name": "Authentication",
+        "item": [
+          {
+            "name": "Register User",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"fullName\": \"Nguyễn Văn A\",\n  \"email\": \"test@example.com\",\n  \"password\": \"123456\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/users/register",
+                "host": ["{{baseUrl}}"],
+                "path": ["users", "register"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Login User",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "if (pm.response.code === 200) {",
+                    "    const response = pm.response.json();",
+                    "    pm.collectionVariables.set('token', response.token);",
+                    "}"
+                  ]
+                }
+              }
+            ],
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"123456\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/users/login",
+                "host": ["{{baseUrl}}"],
+                "path": ["users", "login"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Profile",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/users/profile",
+                "host": ["{{baseUrl}}"],
+                "path": ["users", "profile"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Update Profile",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"fullName\": \"Nguyễn Văn B\",\n  \"email\": \"test2@example.com\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/users/profile",
+                "host": ["{{baseUrl}}"],
+                "path": ["users", "profile"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Change Password",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"currentPassword\": \"123456\",\n  \"newPassword\": \"123456789\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/users/change-password",
+                "host": ["{{baseUrl}}"],
+                "path": ["users", "change-password"]
+              }
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Categories",
+        "item": [
+          {
+            "name": "Get All Categories",
+            "request": {
+              "method": "GET",
+              "url": {
+                "raw": "{{baseUrl}}/categories",
+                "host": ["{{baseUrl}}"],
+                "path": ["categories"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Categories by Type - Income",
+            "request": {
+              "method": "GET",
+              "url": {
+                "raw": "{{baseUrl}}/categories/type/income",
+                "host": ["{{baseUrl}}"],
+                "path": ["categories", "type", "income"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Categories by Type - Expense",
+            "request": {
+              "method": "GET",
+              "url": {
+                "raw": "{{baseUrl}}/categories/type/expense",
+                "host": ["{{baseUrl}}"],
+                "path": ["categories", "type", "expense"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Category by ID",
+            "request": {
+              "method": "GET",
+              "url": {
+                "raw": "{{baseUrl}}/categories/1",
+                "host": ["{{baseUrl}}"],
+                "path": ["categories", "1"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Create Category (Admin Only)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"name\": \"Mua sắm\",\n  \"type\": \"expense\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/categories",
+                "host": ["{{baseUrl}}"],
+                "path": ["categories"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Update Category (Admin Only)",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"name\": \"Mua sắm online\",\n  \"type\": \"expense\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/categories/1",
+                "host": ["{{baseUrl}}"],
+                "path": ["categories", "1"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Delete Category (Admin Only)",
+            "request": {
+              "method": "DELETE",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/categories/1",
+                "host": ["{{baseUrl}}"],
+                "path": ["categories", "1"]
+              }
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Transactions",
+        "item": [
+          {
+            "name": "Create Transaction",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"categoryId\": 1,\n  \"amount\": 500000,\n  \"transactionDate\": \"2025-01-08\",\n  \"note\": \"Mua đồ ăn trưa\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/transactions",
+                "host": ["{{baseUrl}}"],
+                "path": ["transactions"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get All Transactions",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/transactions?page=1&limit=10",
+                "host": ["{{baseUrl}}"],
+                "path": ["transactions"],
+                "query": [
+                  {
+                    "key": "page",
+                    "value": "1"
+                  },
+                  {
+                    "key": "limit",
+                    "value": "10"
+                  }
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Transactions with Date Filter",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/transactions?startDate=2025-01-01&endDate=2025-01-31",
+                "host": ["{{baseUrl}}"],
+                "path": ["transactions"],
+                "query": [
+                  {
+                    "key": "startDate",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "endDate",
+                    "value": "2025-01-31"
+                  }
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Transaction by ID",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/transactions/1",
+                "host": ["{{baseUrl}}"],
+                "path": ["transactions", "1"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Update Transaction",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"amount\": 600000,\n  \"note\": \"Mua đồ ăn trưa + nước\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/transactions/1",
+                "host": ["{{baseUrl}}"],
+                "path": ["transactions", "1"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Delete Transaction",
+            "request": {
+              "method": "DELETE",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/transactions/1",
+                "host": ["{{baseUrl}}"],
+                "path": ["transactions", "1"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Monthly Stats",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/transactions/stats/monthly?year=2025&month=1",
+                "host": ["{{baseUrl}}"],
+                "path": ["transactions", "stats", "monthly"],
+                "query": [
+                  {
+                    "key": "year",
+                    "value": "2025"
+                  },
+                  {
+                    "key": "month",
+                    "value": "1"
+                  }
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Category Stats",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/transactions/stats/category?startDate=2025-01-01&endDate=2025-01-31",
+                "host": ["{{baseUrl}}"],
+                "path": ["transactions", "stats", "category"],
+                "query": [
+                  {
+                    "key": "startDate",
+                    "value": "2025-01-01"
+                  },
+                  {
+                    "key": "endDate",
+                    "value": "2025-01-31"
+                  }
+                ]
+              }
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Budgets",
+        "item": [
+          {
+            "name": "Create Budget",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"categoryId\": 1,\n  \"amount\": 2000000,\n  \"month\": 1,\n  \"year\": 2025\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/budgets",
+                "host": ["{{baseUrl}}"],
+                "path": ["budgets"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get All Budgets",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/budgets",
+                "host": ["{{baseUrl}}"],
+                "path": ["budgets"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Budgets by Month/Year",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/budgets?month=1&year=2025",
+                "host": ["{{baseUrl}}"],
+                "path": ["budgets"],
+                "query": [
+                  {
+                    "key": "month",
+                    "value": "1"
+                  },
+                  {
+                    "key": "year",
+                    "value": "2025"
+                  }
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Budget by ID",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/budgets/1",
+                "host": ["{{baseUrl}}"],
+                "path": ["budgets", "1"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Update Budget",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"amount\": 2500000\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/budgets/1",
+                "host": ["{{baseUrl}}"],
+                "path": ["budgets", "1"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Delete Budget",
+            "request": {
+              "method": "DELETE",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/budgets/1",
+                "host": ["{{baseUrl}}"],
+                "path": ["budgets", "1"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Budget Stats",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/budgets/stats?month=1&year=2025",
+                "host": ["{{baseUrl}}"],
+                "path": ["budgets", "stats"],
+                "query": [
+                  {
+                    "key": "month",
+                    "value": "1"
+                  },
+                  {
+                    "key": "year",
+                    "value": "2025"
+                  }
+                ]
+              }
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Goals",
+        "item": [
+          {
+            "name": "Create Goal",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"title\": \"Mua xe máy\",\n  \"targetAmount\": 20000000,\n  \"deadline\": \"2025-12-31\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/goals",
+                "host": ["{{baseUrl}}"],
+                "path": ["goals"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get All Goals",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/goals",
+                "host": ["{{baseUrl}}"],
+                "path": ["goals"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Goal by ID",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/goals/1",
+                "host": ["{{baseUrl}}"],
+                "path": ["goals", "1"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Update Goal",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"title\": \"Mua xe máy Honda\",\n  \"targetAmount\": 25000000\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/goals/1",
+                "host": ["{{baseUrl}}"],
+                "path": ["goals", "1"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Update Goal Progress",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"amount\": 5000000\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/goals/1/progress",
+                "host": ["{{baseUrl}}"],
+                "path": ["goals", "1", "progress"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Delete Goal",
+            "request": {
+              "method": "DELETE",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/goals/1",
+                "host": ["{{baseUrl}}"],
+                "path": ["goals", "1"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Goal Stats",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/goals/stats",
+                "host": ["{{baseUrl}}"],
+                "path": ["goals", "stats"]
+              }
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "System",
+        "item": [
+          {
+            "name": "Health Check",
+            "request": {
+              "method": "GET",
+              "url": {
+                "raw": "{{baseUrl}}/health",
+                "host": ["{{baseUrl}}"],
+                "path": ["health"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get All Users (Admin Only)",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/users/all",
+                "host": ["{{baseUrl}}"],
+                "path": ["users", "all"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Delete User (Admin Only)",
+            "request": {
+              "method": "DELETE",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/users/1",
+                "host": ["{{baseUrl}}"],
+                "path": ["users", "1"]
+              }
+            },
+            "response": []
+          }
+        ]
+      }
+    ]
+  }
+     
